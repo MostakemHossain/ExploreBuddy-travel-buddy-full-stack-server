@@ -1,9 +1,13 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import httpStatus from "http-status";
 import sendResponse from "../../../Shared/SendResponse";
 import { userService } from "./user.service";
 
-const createUserRegistration = async (req: Request, res: Response) => {
+const createUserRegistration = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const result = await userService.createUserRegistration(req.body);
     sendResponse(res, {
@@ -13,14 +17,10 @@ const createUserRegistration = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (error: any) {
-    res.status(500).json({
-      success: false,
-      message: error.message || "Something went wrong",
-      error: error,
-    });
+    next(error);
   }
 };
-const getAllUser = async (req: Request, res: Response) => {
+const getAllUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const result = await userService.getAllUser();
     sendResponse(res, {
@@ -30,11 +30,7 @@ const getAllUser = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (error: any) {
-    res.status(500).json({
-      success: false,
-      message: error.message || "Something went wrong",
-      error: error,
-    });
+    next(error);
   }
 };
 

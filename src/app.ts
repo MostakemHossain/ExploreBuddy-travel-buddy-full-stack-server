@@ -1,5 +1,6 @@
 import cors from "cors";
 import express, { Application, Request, Response } from "express";
+import globalErrorHandler from "./app/middlewares/globalErrorHandler";
 import router from "./app/routes";
 
 const port = 6000;
@@ -17,5 +18,8 @@ app.get("/", (req: Request, res: Response) => {
     message: "Explore Buddy API.............",
   });
 });
+
+// global error handler
+app.use(globalErrorHandler);
 
 export default app;

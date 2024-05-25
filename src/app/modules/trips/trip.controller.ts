@@ -1,11 +1,11 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import httpStatus from "http-status";
 import Pick from "../../../Shared/Pick";
 import sendResponse from "../../../Shared/SendResponse";
 import tripFilterableFields from "./trip.constant";
 import { tripService } from "./trips.service";
 
-const createTrip = async (req: Request, res: Response) => {
+const createTrip = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const result = await tripService.createTrip(req.body);
     sendResponse(res, {
@@ -15,14 +15,10 @@ const createTrip = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (error: any) {
-    res.status(500).json({
-      success: false,
-      message: error.message || "Something went wrong",
-      error: error,
-    });
+    next(error);
   }
 };
-const getAllTrip = async (req: Request, res: Response) => {
+const getAllTrip = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const filter = Pick(req.query, tripFilterableFields);
     const options = Pick(req.query, ["limit", "page", "sortBy", "sortOrder"]);
@@ -35,11 +31,7 @@ const getAllTrip = async (req: Request, res: Response) => {
       data: result.data,
     });
   } catch (error: any) {
-    res.status(500).json({
-      success: false,
-      message: error.message || "Something went wrong",
-      error: error,
-    });
+    next(error);
   }
 };
 
