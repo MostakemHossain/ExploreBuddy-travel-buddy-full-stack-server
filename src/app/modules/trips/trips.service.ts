@@ -1,4 +1,6 @@
 import { Prisma, PrismaClient } from "@prisma/client";
+import calculatePagination from "../../../helpers/calculatePagination";
+import { TPagination } from "../../interface/pagination";
 
 const prisma = new PrismaClient();
 const createTrip = async (payload: any) => {
@@ -8,8 +10,9 @@ const createTrip = async (payload: any) => {
   return result;
 };
 
-const getAllTrip = async (params: any, options: any) => {
+const getAllTrip = async (params: any, options: TPagination) => {
   const { searchTerm, ...filterData } = params;
+  const { limit, page, skip, sortBy, sortOrder } = calculatePagination(options);
   const andConditions: Prisma.TripWhereInput[] = [];
   if (filterData.budget) {
     filterData.budget = parseInt(filterData.budget);
@@ -55,10 +58,20 @@ const getAllTrip = async (params: any, options: any) => {
   }
 
   const whereConditions: Prisma.TripWhereInput = { AND: andConditions };
+  const total = await prisma.trip.count({
+    where: whereConditions,
+  });
   const result = await prisma.trip.findMany({
     where: whereConditions,
   });
-  return result;
+  return {
+    meta: {
+      page,
+      limit,
+      total,
+    },
+    data: result,
+  };
 };
 
 export const tripService = {
