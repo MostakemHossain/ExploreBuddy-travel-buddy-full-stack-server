@@ -1,6 +1,7 @@
 import cors from "cors";
 import express, { Application, Request, Response } from "express";
 import globalErrorHandler from "./app/middlewares/globalErrorHandler";
+import notFound from "./app/middlewares/notFound";
 import router from "./app/routes";
 
 const port = 6000;
@@ -21,5 +22,8 @@ app.get("/", (req: Request, res: Response) => {
 
 // global error handler
 app.use(globalErrorHandler);
+
+// not found routes
+app.use(notFound);
 
 export default app;
