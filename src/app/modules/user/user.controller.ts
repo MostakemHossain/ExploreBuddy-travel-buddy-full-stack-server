@@ -1,11 +1,14 @@
 import { Request, Response } from "express";
+import httpStatus from "http-status";
+import sendResponse from "../../../Shared/SendResponse";
 import { userService } from "./user.service";
 
 const createUserRegistration = async (req: Request, res: Response) => {
   try {
     const result = await userService.createUserRegistration(req.body);
-    res.status(201).json({
+    sendResponse(res, {
       success: true,
+      statusCode: httpStatus.CREATED,
       message: "User Registration Successfully",
       data: result,
     });
@@ -20,8 +23,9 @@ const createUserRegistration = async (req: Request, res: Response) => {
 const getAllUser = async (req: Request, res: Response) => {
   try {
     const result = await userService.getAllUser();
-    res.status(200).json({
+    sendResponse(res, {
       success: true,
+      statusCode: httpStatus.OK,
       message: "User Retrieved Successfully",
       data: result,
     });
