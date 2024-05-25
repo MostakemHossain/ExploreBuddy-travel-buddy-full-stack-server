@@ -38,6 +38,28 @@ const createUserRegistration = async (payload: any) => {
   return result;
 };
 
+const getAllUser = async () => {
+  const result = await prisma.user.findMany({
+    where: {
+      status: "ACTIVE",
+      isDeleted: false,
+    },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      profilePhoto: true,
+      status: true,
+      role: true,
+      isDeleted: true,
+      createdAt: true,
+      updatedAt: true,
+    },
+  });
+  return result;
+};
+
 export const userService = {
   createUserRegistration,
+  getAllUser,
 };
