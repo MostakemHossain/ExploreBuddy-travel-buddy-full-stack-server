@@ -1,4 +1,6 @@
 import { Request, Response } from "express";
+import Pick from "../../../Shared/Pick";
+import tripFilterableFields from "./trip.constant";
 import { tripService } from "./trips.service";
 
 const createTrip = async (req: Request, res: Response) => {
@@ -19,7 +21,9 @@ const createTrip = async (req: Request, res: Response) => {
 };
 const getAllTrip = async (req: Request, res: Response) => {
   try {
-    const result = await tripService.getAllTrip(req.query);
+    const filter = Pick(req.query, tripFilterableFields);
+    const options = Pick(req.query, ["limit", "page", "sortBy", "sortOrder"]);
+    const result = await tripService.getAllTrip(filter, options);
     res.status(200).json({
       success: true,
       message: "Trip Retrieved Successfully",

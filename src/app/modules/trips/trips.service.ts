@@ -8,7 +8,7 @@ const createTrip = async (payload: any) => {
   return result;
 };
 
-const getAllTrip = async (params: any) => {
+const getAllTrip = async (params: any, options: any) => {
   const { searchTerm, ...filterData } = params;
   const andConditions: Prisma.TripWhereInput[] = [];
   if (filterData.budget) {
