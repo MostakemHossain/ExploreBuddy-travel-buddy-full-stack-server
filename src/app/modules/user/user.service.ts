@@ -1,14 +1,21 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
+import { fileUploader } from "../../../helpers/fileUpload";
 const prisma = new PrismaClient();
-const createUserRegistration = async (payload: any) => {
-  const hashedPassword = await bcrypt.hash(payload.password, 10);
+const createUserRegistration = async (req: any) => {
+  const file = req.file;
+  if (file) {
+    const uploadToCloudinary = await fileUploader.uploadToCloudinary(file);
+    req.body.profilePhoto = uploadToCloudinary?.secure_url;
+    console.log(req.body);
+  }
+  const hashedPassword = await bcrypt.hash(req.body.password, 10);
   const userData = {
-    name: payload.name,
-    email: payload.email,
+    name: req.body.name,
+    email: req.body.email,
     password: hashedPassword,
+    profilePhoto: req.body.profilePhoto,
   };
-
   const result = await prisma.$transaction(async (tx) => {
     const createUser = await tx.user.create({
       data: userData,
@@ -24,17 +31,15 @@ const createUserRegistration = async (payload: any) => {
         updatedAt: true,
       },
     });
-
     await tx.userProfile.create({
       data: {
         userId: createUser.id,
-        bio: payload.profile.bio,
-        age: payload.profile.age,
+        bio: req.body.profile.bio,
+        age: req.body.profile.age,
       },
     });
     return createUser;
   });
-
   return result;
 };
 
