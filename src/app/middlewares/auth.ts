@@ -19,7 +19,6 @@ const auth = (...roles: string[]) => {
         token,
         config.jwt_access_serect as string
       );
-      console.log(verifyUser.role);
       req.user = verifyUser;
       if (roles.length && !roles.includes(verifyUser.role)) {
         throw new AppError(httpStatus.UNAUTHORIZED, "You are not authorized");
