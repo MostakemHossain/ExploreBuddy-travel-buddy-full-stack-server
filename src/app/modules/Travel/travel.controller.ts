@@ -29,7 +29,22 @@ const getPotentialTravelBuddies = catchAsync(
     });
   }
 );
+const updateSpecificTravelBuddy = catchAsync(
+  async (req: Request, res: Response) => {
+    const result = await travelService.updateSpecificTravelBuddy(
+      req.params.buddyId,
+      req.body
+    );
+    sendResponse(res, {
+      statusCode: httpStatus.CREATED,
+      message: "Travel buddy request update successfully",
+      success: true,
+      data: result,
+    });
+  }
+);
 export const travelController = {
   createTravel,
   getPotentialTravelBuddies,
+  updateSpecificTravelBuddy,
 };

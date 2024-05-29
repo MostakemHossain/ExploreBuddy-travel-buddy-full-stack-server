@@ -14,8 +14,13 @@ router.post(
 );
 router.get(
   "/travel-buddies/:tripId",
-  auth(UserRole.ADMIN, UserRole.SUPER_ADMIN,UserRole.USER),
+  auth(UserRole.ADMIN, UserRole.SUPER_ADMIN, UserRole.USER),
   travelController.getPotentialTravelBuddies
+);
+router.put(
+  "/travel-buddies/:buddyId/respond",
+  auth(UserRole.ADMIN, UserRole.SUPER_ADMIN),
+  travelController.updateSpecificTravelBuddy
 );
 
 export const travelRoutes = router;
