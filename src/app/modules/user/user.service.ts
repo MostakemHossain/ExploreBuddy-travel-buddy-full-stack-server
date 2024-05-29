@@ -73,8 +73,40 @@ const getMyProfile = async (user: any) => {
   return userData;
 };
 
+const updateMyProfile = async (user: any, payload: any) => {
+  const { profile, ...remainingData } = payload;
+  const userData = await prisma.user.update({
+    where: {
+      id: user.userId,
+    },
+    data: {
+      ...remainingData,
+    },
+  });
+  const updatedUser = await prisma.user.findUnique({
+    where: { id: user.userId },
+    select: {
+      id: true,
+      email: true,
+      name: true,
+      role: true,
+      status: true,
+      isDeleted: true,
+      profilePhoto: true,
+      userProfile: {
+        select: {
+          bio: true,
+          age: true,
+        },
+      },
+    },
+  });
+
+  return updatedUser;
+};
 export const userService = {
   createUserRegistration,
   getAllUser,
   getMyProfile,
+  updateMyProfile,
 };

@@ -23,5 +23,10 @@ router.get(
   auth(UserRole.ADMIN, UserRole.SUPER_ADMIN, UserRole.USER),
   userController.getMyProfile
 );
+router.put(
+  "/profile",
+  auth(UserRole.ADMIN, UserRole.SUPER_ADMIN, UserRole.USER),
+  userController.updateMyProfile
+);
 
 export const userRoutes = router;
