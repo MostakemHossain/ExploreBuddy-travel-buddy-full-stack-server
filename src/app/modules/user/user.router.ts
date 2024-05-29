@@ -1,5 +1,7 @@
+import { UserRole } from "@prisma/client";
 import express, { NextFunction, Request, Response } from "express";
 import { fileUploader } from "../../../helpers/fileUpload";
+import auth from "../../middlewares/auth";
 import { userController } from "./user.controller";
 import { userValidation } from "./user.validation";
 
@@ -7,7 +9,6 @@ const router = express.Router();
 
 router.post(
   "/register",
-  // validateRequest(userValidation.createUserValidationSchema),
   fileUploader.upload.single("file"),
   (req: Request, res: Response, next: NextFunction) => {
     req.body = userValidation.createUserValidationSchema.parse(
@@ -17,5 +18,10 @@ router.post(
   }
 );
 router.get("/user", userController.getAllUser);
+router.get(
+  "/profile",
+  auth(UserRole.ADMIN, UserRole.SUPER_ADMIN, UserRole.USER),
+  userController.getMyProfile
+);
 
 export const userRoutes = router;

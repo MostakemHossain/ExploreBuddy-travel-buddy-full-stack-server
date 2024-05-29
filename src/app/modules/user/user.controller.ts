@@ -24,8 +24,21 @@ const getAllUser = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+const getMyProfile = catchAsync(
+  async (req: Request & { user?: any }, res: Response) => {
+    const user = req.user;
+    const result = await userService.getMyProfile(user);
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "User Retrieved Successfully",
+      data: result,
+    });
+  }
+);
 
 export const userController = {
   createUserRegistration,
   getAllUser,
+  getMyProfile,
 };
