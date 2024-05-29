@@ -16,6 +16,20 @@ const createTravel = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+const getPotentialTravelBuddies = catchAsync(
+  async (req: Request, res: Response) => {
+    const result = await travelService.getPotentialTravelBuddies(
+      req.params.tripId
+    );
+    sendResponse(res, {
+      statusCode: httpStatus.CREATED,
+      message: "Get Potential Travel Buddies retrieved successfully",
+      success: true,
+      data: result,
+    });
+  }
+);
 export const travelController = {
   createTravel,
+  getPotentialTravelBuddies,
 };

@@ -10,6 +10,20 @@ const createTravel = async (tripId: string, id: string) => {
   });
   return result;
 };
+
+const getPotentialTravelBuddies = async (tripId: string) => {
+  const trip = await prisma.trip.findUniqueOrThrow({
+    where: {
+      id: tripId,
+    },
+    include: {
+      user: true,
+    },
+  });
+  return trip;
+};
+
 export const travelService = {
   createTravel,
+  getPotentialTravelBuddies,
 };
