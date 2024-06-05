@@ -6,5 +6,10 @@ const router = express.Router();
 
 router.post("/trips", auth(UserRole.USER), tripController.createTrip);
 router.get("/trips", tripController.getAllTrip);
+router.get(
+  "/trips/my-trips",
+  auth(UserRole.USER),
+  tripController.getSpecificUserTrip
+);
 
 export const tripRoutes = router;

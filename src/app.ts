@@ -4,16 +4,20 @@ import express, { Application, Request, Response } from "express";
 import globalErrorHandler from "./app/middlewares/globalErrorHandler";
 import notFound from "./app/middlewares/notFound";
 import router from "./app/routes";
-
-const port = 6000;
 const app: Application = express();
 
-// PARSER
-app.use(express.json());
-app.use(cors());
-app.use(express.urlencoded({ extended: true }));
+app.use(
+  cors({
+    origin: ["http://localhost:3000", "http://localhost:3001"],
+    credentials: true,
+  })
+);
+
 app.use(cookieParser());
 
+//parser
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use("/api", router);
 
 app.get("/", (req: Request, res: Response) => {

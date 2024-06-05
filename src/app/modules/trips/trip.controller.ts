@@ -29,8 +29,19 @@ const getAllTrip = catchAsync(async (req: Request, res: Response) => {
     data: result.data,
   });
 });
+const getSpecificUserTrip = catchAsync(async (req: Request & { user?: any }, res: Response) => {
+  const result = await tripService.getSpecificUserTrip(req.user.userId);
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: "Get Specific User Trip Retrieved Successfully",
+    data: result,
+    
+  });
+});
 
 export const tripController = {
   createTrip,
   getAllTrip,
+  getSpecificUserTrip
 };
