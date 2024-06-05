@@ -76,14 +76,87 @@ const getAllTrip = async (params: any, options: TPagination) => {
     data: result,
   };
 };
-const getSpecificUserTrip = async (id: string) => {
-  const result = await prisma.trip.findMany({
-    where: {
-      userId: id,
-    },
-  });
-  return result;
+const getSpecificUserTrip = async (
+  id: string,
+  params: any,
+  options: TPagination
+) => {
+  try {
+    const { searchTerm, ...filterData } = params;
+    const { limit, page, skip, sortBy, sortOrder } =
+      calculatePagination(options);
+    const andConditions: Prisma.TripWhereInput[] = [{ userId: id }];
+
+    if (filterData.budget) {
+      filterData.budget = parseInt(filterData.budget);
+    }
+
+    // Search term
+    if (searchTerm) {
+      const searchTermAsInt = parseInt(searchTerm);
+      if (!isNaN(searchTermAsInt)) {
+        andConditions.push({
+          budget: {
+            equals: searchTermAsInt,
+          },
+        });
+      } else {
+        andConditions.push({
+          OR: [
+            {
+              destination: {
+                contains: searchTerm,
+                mode: "insensitive",
+              },
+            },
+            {
+              activities: {
+                has: searchTerm,
+              },
+            },
+          ],
+        });
+      }
+    }
+
+    // Filter
+    if (Object.keys(filterData).length > 0) {
+      andConditions.push({
+        AND: Object.keys(filterData).map((key) => ({
+          [key]: {
+            equals: (filterData as any)[key],
+          },
+        })),
+      });
+    }
+
+    const whereConditions: Prisma.TripWhereInput = { AND: andConditions };
+
+    const total = await prisma.trip.count({
+      where: whereConditions,
+    });
+
+    const result = await prisma.trip.findMany({
+      where: whereConditions,
+      skip: skip,
+      take: limit,
+      orderBy: sortBy ? { [sortBy]: sortOrder } : undefined,
+    });
+
+    return {
+      meta: {
+        page,
+        limit,
+        total,
+      },
+      data: result,
+    };
+  } catch (error) {
+    console.error("Error fetching specific user trips:", error);
+    throw error;
+  }
 };
+
 const deleteMyTrip = async (id: string) => {
   const result = await prisma.trip.delete({
     where: {

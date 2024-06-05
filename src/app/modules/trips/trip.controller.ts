@@ -31,12 +31,19 @@ const getAllTrip = catchAsync(async (req: Request, res: Response) => {
 });
 const getSpecificUserTrip = catchAsync(
   async (req: Request & { user?: any }, res: Response) => {
-    const result = await tripService.getSpecificUserTrip(req.user.userId);
+    const filter = Pick(req.query, tripFilterableFields);
+    const options = Pick(req.query, ["limit", "page", "sortBy", "sortOrder"]);
+    const result = await tripService.getSpecificUserTrip(
+      req.user.userId,
+      filter,
+      options
+    );
     sendResponse(res, {
       success: true,
       statusCode: httpStatus.OK,
       message: "Get Specific User Trip Retrieved Successfully",
-      data: result,
+      meta: result.meta,
+      data: result.data,
     });
   }
 );
