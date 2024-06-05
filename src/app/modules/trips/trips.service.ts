@@ -4,7 +4,6 @@ import { TPagination } from "../../interface/pagination";
 
 const prisma = new PrismaClient();
 const createTrip = async (payload: any, userId: string) => {
-  console.log(userId);
   const result = await prisma.trip.create({
     data: {
       userId: userId,
@@ -85,9 +84,18 @@ const getSpecificUserTrip = async (id: string) => {
   });
   return result;
 };
+const deleteMyTrip = async (id: string) => {
+  const result = await prisma.trip.delete({
+    where: {
+      id: id,
+    },
+  });
+  return result;
+};
 
 export const tripService = {
   createTrip,
   getAllTrip,
-  getSpecificUserTrip
+  getSpecificUserTrip,
+  deleteMyTrip,
 };
