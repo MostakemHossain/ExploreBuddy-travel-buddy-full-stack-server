@@ -3,9 +3,13 @@ import calculatePagination from "../../../helpers/calculatePagination";
 import { TPagination } from "../../interface/pagination";
 
 const prisma = new PrismaClient();
-const createTrip = async (payload: any) => {
+const createTrip = async (payload: any,userId:string) => {
+  console.log(userId)
   const result = await prisma.trip.create({
-    data: payload,
+    data: {
+      userId:userId,
+      ...payload
+    },
   });
   return result;
 };

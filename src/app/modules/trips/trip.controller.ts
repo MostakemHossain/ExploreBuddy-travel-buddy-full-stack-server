@@ -7,8 +7,8 @@ import tripFilterableFields from "./trip.constant";
 import { tripService } from "./trips.service";
 
 const createTrip = catchAsync(
-  async (req: Request, res: Response, next: NextFunction) => {
-    const result = await tripService.createTrip(req.body);
+  async (req: Request & { user?: any }, res: Response, next: NextFunction) => {
+    const result = await tripService.createTrip(req.body, req.user.userId);
     sendResponse(res, {
       success: true,
       statusCode: httpStatus.CREATED,

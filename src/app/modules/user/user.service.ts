@@ -7,7 +7,14 @@ const createUserRegistration = async (req: any) => {
   if (file) {
     const uploadToCloudinary = await fileUploader.uploadToCloudinary(file);
     req.body.profilePhoto = uploadToCloudinary?.secure_url;
-    console.log(req.body);
+  }
+  const userExists = await prisma.user.findUnique({
+    where: {
+      email: req.body.email,
+    },
+  });
+  if (userExists) {
+    throw new Error("This email is already registered");
   }
   const hashedPassword = await bcrypt.hash(req.body.password, 10);
   const userData = {
@@ -24,6 +31,7 @@ const createUserRegistration = async (req: any) => {
         name: true,
         email: true,
         profilePhoto: true,
+        password: true,
         status: true,
         role: true,
         isDeleted: true,
@@ -31,13 +39,7 @@ const createUserRegistration = async (req: any) => {
         updatedAt: true,
       },
     });
-    await tx.userProfile.create({
-      data: {
-        userId: createUser.id,
-        bio: req.body.profile.bio,
-        age: req.body.profile.age,
-      },
-    });
+
     return createUser;
   });
   return result;
@@ -90,6 +92,7 @@ const updateMyProfile = async (user: any, payload: any) => {
       email: true,
       name: true,
       role: true,
+      password: true,
       status: true,
       isDeleted: true,
       profilePhoto: true,

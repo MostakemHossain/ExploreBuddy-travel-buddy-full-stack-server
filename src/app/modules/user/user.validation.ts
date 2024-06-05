@@ -14,33 +14,22 @@ const createUserValidationSchema = z.object({
     .min(1, {
       message: "Password is Required",
     }),
-  profile: z.object({
-    bio: z.string({
-      required_error: "Bio is required.",
-    }),
-    age: z
-      .number({
-        required_error: "Age is Required",
-      })
-      .int()
-      .positive({
-        message: "Age must be a positive integer.",
-      }),
-  }),
 });
 const updateUserValidationSchema = z.object({
   name: z.string({}).optional(),
   email: z.string().email({}).optional(),
-  profile: z.object({
-    bio: z.string({}).optional(),
-    age: z
-      .number({})
-      .int()
-      .positive({
-        message: "Age must be a positive integer.",
-      })
-      .optional(),
-  }),
+  profile: z
+    .object({
+      bio: z.string({}).optional(),
+      age: z
+        .number({})
+        .int()
+        .positive({
+          message: "Age must be a positive integer.",
+        })
+        .optional(),
+    })
+    .optional(),
 });
 
 export const userValidation = {
