@@ -165,10 +165,19 @@ const deleteMyTrip = async (id: string) => {
   });
   return result;
 };
+const getMyTrip = async (id: string) => {
+  const result = await prisma.trip.findUniqueOrThrow({
+    where: {
+      id: id,
+    },
+  });
+  return result;
+};
 
 export const tripService = {
   createTrip,
   getAllTrip,
   getSpecificUserTrip,
   deleteMyTrip,
+  getMyTrip,
 };

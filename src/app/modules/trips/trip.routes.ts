@@ -16,5 +16,10 @@ router.delete(
   auth(UserRole.USER),
   tripController.deleteMyTrip
 );
+router.get(
+  "/trips/my-trips/:id",
+  auth(UserRole.USER),
+  tripController.getMyTrip
+);
 
 export const tripRoutes = router;
