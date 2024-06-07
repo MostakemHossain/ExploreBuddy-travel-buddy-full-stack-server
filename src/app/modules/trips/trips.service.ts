@@ -1,4 +1,4 @@
-import { Prisma, PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient, Trip } from "@prisma/client";
 import calculatePagination from "../../../helpers/calculatePagination";
 import { TPagination } from "../../interface/pagination";
 
@@ -173,6 +173,17 @@ const getMyTrip = async (id: string) => {
   });
   return result;
 };
+const updateMyTrip = async (id: string, payload: Partial<Trip>) => {
+  const result = await prisma.trip.update({
+    where: {
+      id: id,
+    },
+    data: {
+      ...payload,
+    },
+  });
+  return result;
+};
 
 export const tripService = {
   createTrip,
@@ -180,4 +191,5 @@ export const tripService = {
   getSpecificUserTrip,
   deleteMyTrip,
   getMyTrip,
+  updateMyTrip,
 };

@@ -69,6 +69,17 @@ const getMyTrip = catchAsync(
     });
   }
 );
+const updateMyTrip = catchAsync(
+  async (req: Request & { user?: any }, res: Response) => {
+    const result = await tripService.updateMyTrip(req.params.id, req.body);
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Trip Updated Successfully",
+      data: result,
+    });
+  }
+);
 
 export const tripController = {
   createTrip,
@@ -76,4 +87,5 @@ export const tripController = {
   getSpecificUserTrip,
   deleteMyTrip,
   getMyTrip,
+  updateMyTrip,
 };
