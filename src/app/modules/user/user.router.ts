@@ -23,10 +23,14 @@ router.get(
   auth(UserRole.ADMIN, UserRole.SUPER_ADMIN, UserRole.USER),
   userController.getMyProfile
 );
-router.put(
-  "/profile",
+router.patch(
+  "/profile/update-my-profile",
   auth(UserRole.ADMIN, UserRole.SUPER_ADMIN, UserRole.USER),
-  userController.updateMyProfile
+  fileUploader.upload.single("file"),
+  (req: Request, res: Response, next: NextFunction) => {
+    req.body = JSON.parse(req.body.data);
+    return userController.updateMyProfile(req, res, next);
+  }
 );
 
 export const userRoutes = router;

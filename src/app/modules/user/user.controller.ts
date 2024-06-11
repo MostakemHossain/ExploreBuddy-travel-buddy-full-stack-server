@@ -2,8 +2,13 @@ import { Request, Response } from "express";
 import httpStatus from "http-status";
 import sendResponse from "../../../Shared/SendResponse";
 import catchAsync from "../../../Shared/catchAsync";
+
 import { userService } from "./user.service";
 
+export interface CustomRequest extends Request {
+  user?: any;
+  // file?: IFile;
+}
 const createUserRegistration = catchAsync(
   async (req: Request, res: Response) => {
     const result = await userService.createUserRegistration(req);
@@ -37,9 +42,9 @@ const getMyProfile = catchAsync(
   }
 );
 const updateMyProfile = catchAsync(
-  async (req: Request & { user?: any }, res: Response) => {
+  async (req: CustomRequest, res: Response) => {
     const user = req.user;
-    const result = await userService.updateMyProfile(user, req.body);
+    const result = await userService.updateMyProfile(user, req);
     sendResponse(res, {
       success: true,
       statusCode: httpStatus.OK,

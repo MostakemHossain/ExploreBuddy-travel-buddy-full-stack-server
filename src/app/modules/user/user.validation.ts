@@ -18,18 +18,7 @@ const createUserValidationSchema = z.object({
 const updateUserValidationSchema = z.object({
   name: z.string({}).optional(),
   email: z.string().email({}).optional(),
-  profile: z
-    .object({
-      bio: z.string({}).optional(),
-      age: z
-        .number({})
-        .int()
-        .positive({
-          message: "Age must be a positive integer.",
-        })
-        .optional(),
-    })
-    .optional(),
+  
 });
 
 export const userValidation = {

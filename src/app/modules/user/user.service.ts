@@ -1,6 +1,9 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
+import httpStatus from "http-status";
+import AppError from "../../../error/AppError";
 import { fileUploader } from "../../../helpers/fileUpload";
+import { CustomRequest } from "./user.controller";
 const prisma = new PrismaClient();
 const createUserRegistration = async (req: any) => {
   const file = req.file;
@@ -75,37 +78,39 @@ const getMyProfile = async (user: any) => {
   return userData;
 };
 
-const updateMyProfile = async (user: any, payload: any) => {
-  const { profile, ...remainingData } = payload;
-  const userData = await prisma.user.update({
+const updateMyProfile = async (user: any, req: CustomRequest) => {
+  const userData = await prisma.user.findUnique({
     where: {
       id: user.userId,
-    },
-    data: {
-      ...remainingData,
-    },
-  });
-  const updatedUser = await prisma.user.findUnique({
-    where: { id: user.userId },
-    select: {
-      id: true,
-      email: true,
-      name: true,
-      role: true,
-      password: true,
-      status: true,
-      isDeleted: true,
-      profilePhoto: true,
-      userProfile: {
-        select: {
-          bio: true,
-          age: true,
-        },
-      },
+      status: user.ACTIVE,
     },
   });
 
-  return updatedUser;
+  if (!userData) {
+    throw new AppError(httpStatus.BAD_REQUEST, "User does not exist!");
+  }
+
+  const file = req.file;
+
+  if (file) {
+    const uploadedProfileImage = await fileUploader.uploadToCloudinary(file);
+    if (uploadedProfileImage && uploadedProfileImage.secure_url) {
+      req.body.profilePhoto = uploadedProfileImage.secure_url;
+    } else {
+      throw new AppError(
+        httpStatus.BAD_REQUEST,
+        "Profile image upload failed!"
+      );
+    }
+  }
+
+  const result = await prisma.user.update({
+    where: {
+      email: user.email,
+    },
+    data: req.body,
+  });
+  return result;
 };
 export const userService = {
   createUserRegistration,

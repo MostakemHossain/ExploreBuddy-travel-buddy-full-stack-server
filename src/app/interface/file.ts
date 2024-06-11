@@ -23,7 +23,7 @@ export type ICloudinaryResponse = {
   api_key: string;
 };
 
-export type IFile = {
+export interface IFile {
   fieldname: string;
   originalname: string;
   encoding: string;
@@ -32,4 +32,6 @@ export type IFile = {
   filename: string;
   path: string;
   size: number;
-};
+  stream?: NodeJS.ReadableStream | null; // Assuming stream can be null
+  buffer?: Buffer; // Assuming buffer is a Buffer
+}
