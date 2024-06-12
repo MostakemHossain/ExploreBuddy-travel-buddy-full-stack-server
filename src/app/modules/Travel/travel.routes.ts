@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.post(
   "/:tripId/request",
-  auth(UserRole.ADMIN, UserRole.SUPER_ADMIN),
+  auth(UserRole.USER),
   validateRequest(travelValidation.createTravelValidationSchema),
   travelController.createTravel
 );

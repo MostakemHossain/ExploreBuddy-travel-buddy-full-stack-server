@@ -2,12 +2,24 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 const createTravel = async (tripId: string, id: string) => {
-  const result = await prisma.travelBuddyRequest.create({
-    data: {
-      userId: id,
-      tripId: tripId,
-    },
+  const result = await prisma.$transaction(async (tx) => {
+    const createTripBuddyRequest = await tx.travelBuddyRequest.create({
+      data: {
+        userId: id,
+        tripId: tripId,
+      },
+    });
+    await prisma.trip.update({
+      where: {
+        id: tripId,
+      },
+      data: {
+        status: true,
+      },
+    });
+    return createTripBuddyRequest;
   });
+
   return result;
 };
 

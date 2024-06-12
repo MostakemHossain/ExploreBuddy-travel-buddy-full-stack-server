@@ -51,6 +51,7 @@ model Trip {
   startDate          String
   endDate            String
   budget             Float
+  status             Boolean              @default(false)
   activities         String[]
   itinerary          String[]
   photos             String[]
