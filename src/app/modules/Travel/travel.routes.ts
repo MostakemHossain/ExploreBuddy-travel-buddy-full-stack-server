@@ -27,5 +27,10 @@ router.get(
   auth(UserRole.USER),
   travelController.getSpecificUserTripRequest
 );
+router.get(
+  "/travel-request",
+  auth(UserRole.ADMIN, UserRole.SUPER_ADMIN),
+  travelController.getAllTravelRequest
+);
 
 export const travelRoutes = router;

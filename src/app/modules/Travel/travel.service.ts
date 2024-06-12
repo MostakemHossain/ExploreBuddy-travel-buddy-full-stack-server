@@ -56,10 +56,20 @@ const getSpecificUserTripRequest = async (userId: string) => {
   });
   return result;
 };
+const getAllTravelRequest = async () => {
+  const result = await prisma.travelBuddyRequest.findMany({
+    include: {
+      trip: true,
+      user: true,
+    },
+  });
+  return result;
+};
 
 export const travelService = {
   createTravel,
   getPotentialTravelBuddies,
   updateSpecificTravelBuddy,
   getSpecificUserTripRequest,
+  getAllTravelRequest,
 };
