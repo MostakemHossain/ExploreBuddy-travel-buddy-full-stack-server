@@ -12,15 +12,20 @@ router.post(
   validateRequest(travelValidation.createTravelValidationSchema),
   travelController.createTravel
 );
-router.get(
-  "/travel-buddies/:tripId",
-  auth(UserRole.ADMIN, UserRole.SUPER_ADMIN, UserRole.USER),
-  travelController.getPotentialTravelBuddies
-);
+// router.get(
+//   "/travel-buddies/:tripId",
+//   auth(UserRole.ADMIN, UserRole.SUPER_ADMIN, UserRole.USER),
+//   travelController.getPotentialTravelBuddies
+// );
 router.put(
   "/travel-buddies/:buddyId/respond",
   auth(UserRole.ADMIN, UserRole.SUPER_ADMIN),
   travelController.updateSpecificTravelBuddy
+);
+router.get(
+  "/travel-buddies/:userId",
+  auth(UserRole.USER),
+  travelController.getSpecificUserTripRequest
 );
 
 export const travelRoutes = router;

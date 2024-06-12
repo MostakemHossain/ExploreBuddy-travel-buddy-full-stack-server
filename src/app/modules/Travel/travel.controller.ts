@@ -43,8 +43,22 @@ const updateSpecificTravelBuddy = catchAsync(
     });
   }
 );
+const getSpecificUserTripRequest = catchAsync(
+  async (req: Request, res: Response) => {
+    const result = await travelService.getSpecificUserTripRequest(
+      req.params.userId
+    );
+    sendResponse(res, {
+      statusCode: httpStatus.CREATED,
+      message: "Specific User Trip Request Retrieved Successfully",
+      success: true,
+      data: result,
+    });
+  }
+);
 export const travelController = {
   createTravel,
   getPotentialTravelBuddies,
   updateSpecificTravelBuddy,
+  getSpecificUserTripRequest,
 };
