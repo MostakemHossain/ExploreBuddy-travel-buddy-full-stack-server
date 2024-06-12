@@ -32,5 +32,10 @@ router.patch(
     return userController.updateMyProfile(req, res, next);
   }
 );
+router.patch(
+  "/user/update-role-status/:userId",
+  auth(UserRole.ADMIN, UserRole.SUPER_ADMIN),
+  userController.updateUserRoleStatus
+);
 
 export const userRoutes = router;

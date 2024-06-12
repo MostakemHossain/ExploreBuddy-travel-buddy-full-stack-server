@@ -50,10 +50,7 @@ const createUserRegistration = async (req: any) => {
 
 const getAllUser = async () => {
   const result = await prisma.user.findMany({
-    where: {
-      status: "ACTIVE",
-      isDeleted: false,
-    },
+    where: {},
     select: {
       id: true,
       name: true,
@@ -120,9 +117,20 @@ const updateMyProfile = async (user: any, req: CustomRequest) => {
   });
   return result;
 };
+
+const updateUserRoleStatus = async (userId: string, payload: any) => {
+  const result = await prisma.user.update({
+    where: {
+      id: userId,
+    },
+    data: payload,
+  });
+  return result;
+};
 export const userService = {
   createUserRegistration,
   getAllUser,
   getMyProfile,
   updateMyProfile,
+  updateUserRoleStatus,
 };
