@@ -52,6 +52,17 @@ const getAllTravelRequest = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+const getAllApprovalTravelRequest = catchAsync(
+  async (req: Request, res: Response) => {
+    const result = await travelService.getAllApprovalTravelRequest();
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      message: "Get All Travel Request Retrieved Successfully",
+      success: true,
+      data: result,
+    });
+  }
+);
 const getSpecificUserTripRequest = catchAsync(
   async (req: Request, res: Response) => {
     const result = await travelService.getSpecificUserTripRequest(
@@ -71,4 +82,5 @@ export const travelController = {
   updateSpecificTravelBuddy,
   getSpecificUserTripRequest,
   getAllTravelRequest,
+  getAllApprovalTravelRequest,
 };

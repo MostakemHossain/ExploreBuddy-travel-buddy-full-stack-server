@@ -66,6 +66,18 @@ const getAllTravelRequest = async () => {
   });
   return result;
 };
+const getAllApprovalTravelRequest = async () => {
+  const result = await prisma.travelBuddyRequest.findMany({
+    where: {
+      status: "APPROVED",
+    },
+    include: {
+      trip: true,
+      user: true,
+    },
+  });
+  return result;
+};
 
 export const travelService = {
   createTravel,
@@ -73,4 +85,5 @@ export const travelService = {
   updateSpecificTravelBuddy,
   getSpecificUserTripRequest,
   getAllTravelRequest,
+  getAllApprovalTravelRequest,
 };

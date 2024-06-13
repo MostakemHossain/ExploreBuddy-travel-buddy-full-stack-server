@@ -28,5 +28,10 @@ router.get(
   auth(UserRole.ADMIN, UserRole.SUPER_ADMIN),
   travelController.getAllTravelRequest
 );
+router.get(
+  "/travel-request/approval",
+  auth(UserRole.ADMIN, UserRole.SUPER_ADMIN, UserRole.USER),
+  travelController.getAllTravelRequest
+);
 
 export const travelRoutes = router;
