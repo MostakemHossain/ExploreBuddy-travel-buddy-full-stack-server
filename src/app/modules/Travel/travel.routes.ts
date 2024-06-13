@@ -12,12 +12,12 @@ router.post(
   validateRequest(travelValidation.createTravelValidationSchema),
   travelController.createTravel
 );
-// router.get(
-//   "/travel-buddies/:tripId",
-//   auth(UserRole.ADMIN, UserRole.SUPER_ADMIN, UserRole.USER),
-//   travelController.getPotentialTravelBuddies
-// );
-router.put(
+router.get(
+  "/travel-buddies/:tripId",
+  auth(UserRole.ADMIN, UserRole.SUPER_ADMIN, UserRole.USER),
+  travelController.getPotentialTravelBuddies
+);
+router.patch(
   "/travel-buddies/:buddyId/respond",
   auth(UserRole.ADMIN, UserRole.SUPER_ADMIN),
   travelController.updateSpecificTravelBuddy
