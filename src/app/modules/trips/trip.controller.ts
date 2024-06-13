@@ -60,6 +60,7 @@ const deleteMyTrip = catchAsync(
 );
 const getMyTrip = catchAsync(
   async (req: Request & { user?: any }, res: Response) => {
+    console.log(req.params.id);
     const result = await tripService.getMyTrip(req.params.id);
     sendResponse(res, {
       success: true,
