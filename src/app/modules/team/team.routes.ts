@@ -24,5 +24,14 @@ router.get(
   auth(UserRole.ADMIN, UserRole.SUPER_ADMIN),
   teamController.getATeamMember
 );
+router.patch(
+  "/:id",
+  auth(UserRole.SUPER_ADMIN, UserRole.ADMIN),
+  fileUploader.upload.single("file"),
+  (req: Request, res: Response, next: NextFunction) => {
+    req.body = JSON.parse(req.body.data);
+    return teamController.updateATeamMember(req, res, next);
+  }
+);
 
 export const teamRoutes = router;

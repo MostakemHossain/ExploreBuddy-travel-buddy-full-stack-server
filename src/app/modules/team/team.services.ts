@@ -54,7 +54,7 @@ const deleteATeamMember = async (id: string) => {
   });
   return result;
 };
-const getATeamMember = async (id: string, req: Request) => {
+const updateATeamMember = async (id: string, req: Request) => {
   const file = req.file;
   if (file) {
     const uploadedProfileImage = await fileUploader.uploadToCloudinary(file);
@@ -81,10 +81,19 @@ const getATeamMember = async (id: string, req: Request) => {
   });
   return result;
 };
+const getATeamMember = async (id: string) => {
+  const result = await prisma.team.findUniqueOrThrow({
+    where: {
+      id,
+    },
+  });
+  return result;
+};
 
 export const teamServices = {
   createATeamMember,
   getAllTeamMember,
   deleteATeamMember,
   getATeamMember,
+  updateATeamMember,
 };
