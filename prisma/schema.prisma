@@ -90,6 +90,18 @@ model Contact {
   @@map("contacts")
 }
 
+model Team {
+  id           String  @id @default(uuid())
+  name         String
+  designation  String
+  profilePhoto String?
+  facebookURL  String?
+  instagramURL String?
+  linkedinURL  String?
+
+  @@map("teams")
+}
+
 enum UserRole {
   SUPER_ADMIN
   ADMIN

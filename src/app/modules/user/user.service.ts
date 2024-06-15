@@ -86,14 +86,6 @@ const updateMyProfile = async (user: any, req: CustomRequest) => {
   if (!userData) {
     throw new AppError(httpStatus.BAD_REQUEST, "User does not exist!");
   }
-  const isUserAlreadyExists = await prisma.user.findUnique({
-    where: {
-      email: req.body.email,
-    },
-  });
-  if (isUserAlreadyExists) {
-    throw new AppError(httpStatus.BAD_REQUEST, "User is already exists");
-  }
 
   const file = req.file;
 

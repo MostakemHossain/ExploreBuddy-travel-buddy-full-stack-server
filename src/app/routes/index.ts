@@ -1,9 +1,10 @@
 import express from "express";
 import { travelRoutes } from "../modules/Travel/travel.routes";
 import { authRoutes } from "../modules/auth/auth.routes";
+import { contactRoutes } from "../modules/contact/contact.routes";
+import { teamRoutes } from "../modules/team/team.routes";
 import { tripRoutes } from "../modules/trips/trip.routes";
 import { userRoutes } from "../modules/user/user.router";
-import { contactRoutes } from "../modules/contact/contact.routes";
 
 const router = express.Router();
 
@@ -27,6 +28,10 @@ const moduleRoutes = [
   {
     path: "/contact",
     route: contactRoutes,
+  },
+  {
+    path: "/team",
+    route: teamRoutes,
   },
 ];
 

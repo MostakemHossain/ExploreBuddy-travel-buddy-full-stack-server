@@ -1,0 +1,23 @@
+import { Request, Response } from "express";
+import httpStatus from "http-status";
+import sendResponse from "../../../Shared/SendResponse";
+import catchAsync from "../../../Shared/catchAsync";
+import { teamServices } from "./team.services";
+
+const createATeamMember = catchAsync(
+  async (req: Request & { user?: any }, res: Response) => {
+    const user = req.user;
+    const result = await teamServices.createATeamMember(user, req);
+
+    sendResponse(res, {
+      statusCode: httpStatus.CREATED,
+      success: true,
+      message: "Team member created successfully",
+      data: result,
+    });
+  }
+);
+
+export const teamController = {
+  createATeamMember,
+};
