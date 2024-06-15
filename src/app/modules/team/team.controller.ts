@@ -37,9 +37,22 @@ const deleteATeamMember = catchAsync(async (req, res: Response) => {
     data: result,
   });
 });
+const getATeamMember = catchAsync(
+  async (req: Request & { user?: any }, res: Response) => {
+    const result = await teamServices.getATeamMember(req.params.id, req);
+
+    sendResponse(res, {
+      statusCode: httpStatus.CREATED,
+      success: true,
+      message: "Team member is retrieved successfully",
+      data: result,
+    });
+  }
+);
 
 export const teamController = {
   createATeamMember,
   getAllTeamMember,
   deleteATeamMember,
+  getATeamMember,
 };
