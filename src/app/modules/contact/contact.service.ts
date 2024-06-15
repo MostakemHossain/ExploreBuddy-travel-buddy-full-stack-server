@@ -7,6 +7,12 @@ const createContact = async (payload: any) => {
   });
   return res;
 };
+const getAllContact = async () => {
+  const res = await prisma.contact.findMany({});
+  return res;
+};
+
 export const contactServices = {
   createContact,
+  getAllContact,
 };
