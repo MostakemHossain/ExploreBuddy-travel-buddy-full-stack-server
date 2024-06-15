@@ -16,11 +16,7 @@ router.delete(
   auth(UserRole.USER),
   tripController.deleteMyTrip
 );
-router.get(
-  "/trips/my-trips/:id",
-  auth(UserRole.USER),
-  tripController.getMyTrip
-);
+router.get("/trips/my-trips/:id", tripController.getMyTrip);
 router.patch(
   "/trips/my-trips/:id",
   auth(UserRole.USER),

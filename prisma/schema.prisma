@@ -78,6 +78,18 @@ model TravelBuddyRequest {
   @@map("travelBuddyRequest")
 }
 
+model Contact {
+  id          String   @id @default(uuid())
+  name        String
+  email       String
+  phoneNumber String
+  message     String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("contacts")
+}
+
 enum UserRole {
   SUPER_ADMIN
   ADMIN
