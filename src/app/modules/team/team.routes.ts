@@ -14,5 +14,10 @@ router.post(
   }
 );
 router.get("/", teamController.getAllTeamMember);
+router.delete(
+  "/:id",
+  auth(UserRole.ADMIN, UserRole.SUPER_ADMIN),
+  teamController.deleteATeamMember
+);
 
 export const teamRoutes = router;

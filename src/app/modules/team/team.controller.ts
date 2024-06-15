@@ -27,8 +27,19 @@ const getAllTeamMember = catchAsync(async (req, res: Response) => {
     data: result,
   });
 });
+const deleteATeamMember = catchAsync(async (req, res: Response) => {
+  const result = await teamServices.deleteATeamMember(req.params.id);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Team member is Deleted successfully",
+    data: result,
+  });
+});
 
 export const teamController = {
   createATeamMember,
   getAllTeamMember,
+  deleteATeamMember,
 };
