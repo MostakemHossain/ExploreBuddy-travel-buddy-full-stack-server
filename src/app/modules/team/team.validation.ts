@@ -8,9 +8,6 @@ const createTeamValidationSchema = z.object({
     designation: z.string({
       required_error: "Designation is required",
     }),
-    message: z.string({
-      required_error: "Message is required",
-    }),
   }),
 });
 

@@ -13,5 +13,6 @@ router.post(
     return teamController.createATeamMember(req, res, next);
   }
 );
+router.get("/", teamController.getAllTeamMember);
 
 export const teamRoutes = router;
