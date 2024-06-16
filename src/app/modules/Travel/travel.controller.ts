@@ -1,7 +1,9 @@
 import { Request, Response } from "express";
 import httpStatus from "http-status";
+import Pick from "../../../Shared/Pick";
 import sendResponse from "../../../Shared/SendResponse";
 import catchAsync from "../../../Shared/catchAsync";
+import tripFilterableFields from "../trips/trip.constant";
 import { travelService } from "./travel.service";
 
 const createTravel = catchAsync(async (req: Request, res: Response) => {
@@ -54,7 +56,12 @@ const getAllTravelRequest = catchAsync(async (req: Request, res: Response) => {
 });
 const getAllApprovalTravelRequest = catchAsync(
   async (req: Request, res: Response) => {
-    const result = await travelService.getAllApprovalTravelRequest();
+    const filter = Pick(req.query, tripFilterableFields);
+    const options = Pick(req.query, ["limit", "page", "sortBy", "sortOrder"]);
+    const result = await travelService.getAllApprovalTravelRequest(
+      filter,
+      options
+    );
     sendResponse(res, {
       statusCode: httpStatus.OK,
       message: "Get All Travel Request Retrieved Successfully",
