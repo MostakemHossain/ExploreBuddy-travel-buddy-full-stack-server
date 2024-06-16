@@ -98,6 +98,18 @@ const getAllApprovalTravelRequest = async (
             },
           },
           {
+            description: {
+              contains: params.searchTerm,
+              mode: "insensitive",
+            },
+          },
+          {
+            travelType: {
+              contains: params.searchTerm,
+              mode: "insensitive",
+            },
+          },
+          {
             activities: {
               has: params.searchTerm,
             },
@@ -126,7 +138,7 @@ const getAllApprovalTravelRequest = async (
   const result = await prisma.travelBuddyRequest.findMany({
     where: {
       status: "APPROVED",
-      trip: whereConditions, 
+      trip: whereConditions,
     },
     include: {
       trip: true,

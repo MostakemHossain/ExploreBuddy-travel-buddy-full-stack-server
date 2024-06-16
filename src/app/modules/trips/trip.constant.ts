@@ -4,6 +4,8 @@ const tripFilterableFields = [
   "endDate",
   "budget",
   "searchTerm",
+  "description",
+  "travelType",
 ];
 
 export default tripFilterableFields;

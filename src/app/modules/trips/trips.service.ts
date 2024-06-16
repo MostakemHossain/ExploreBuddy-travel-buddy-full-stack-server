@@ -40,6 +40,18 @@ const getAllTrip = async (params: any, options: TPagination) => {
             },
           },
           {
+            travelType: {
+              contains: params.searchTerm,
+              mode: "insensitive",
+            },
+          },
+          {
+            description: {
+              contains: params.searchTerm,
+              mode: "insensitive",
+            },
+          },
+          {
             activities: {
               has: params.searchTerm,
             },
@@ -59,6 +71,13 @@ const getAllTrip = async (params: any, options: TPagination) => {
       })),
     });
   }
+  andConditions.push({
+    TravelBuddyRequest: {
+      some: {
+        status: "APPROVED",
+      },
+    },
+  });
 
   const whereConditions: Prisma.TripWhereInput = { AND: andConditions };
   const total = await prisma.trip.count({
@@ -130,7 +149,9 @@ const getSpecificUserTrip = async (
       });
     }
 
-    const whereConditions: Prisma.TripWhereInput = { AND: andConditions };
+    const whereConditions: Prisma.TripWhereInput = {
+      AND: andConditions,
+    };
 
     const total = await prisma.trip.count({
       where: whereConditions,
