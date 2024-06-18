@@ -15,7 +15,7 @@ app.use(
   cors({
     origin: allowedOrigins,
     credentials: true,
-    methods: ["GET", "HEAD", "OPTIONS", "POST", "PUT", "PATCH", "DELETE"], // Include PATCH method
+    methods: ["GET", "HEAD", "OPTIONS", "POST", "PUT", "PATCH", "DELETE"],
     allowedHeaders: [
       "Origin",
       "X-Requested-With",
