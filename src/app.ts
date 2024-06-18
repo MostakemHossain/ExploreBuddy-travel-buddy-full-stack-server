@@ -6,12 +6,7 @@ import notFound from "./app/middlewares/notFound";
 import router from "./app/routes";
 const app: Application = express();
 
-app.use(
-  cors({
-    origin: ["https://explore-buddy-travel-buddy-full-stack-client.vercel.app"],
-    credentials: true,
-  })
-);
+app.use(cors());
 
 app.use(cookieParser());
 
