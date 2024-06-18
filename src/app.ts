@@ -8,7 +8,7 @@ const app: Application = express();
 
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://localhost:3001"],
+    origin: ["https://explore-buddy-travel-buddy-full-stack-client.vercel.app"],
     credentials: true,
   })
 );
