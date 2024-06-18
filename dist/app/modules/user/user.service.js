@@ -86,12 +86,14 @@ const getMyProfile = (user) => __awaiter(void 0, void 0, void 0, function* () {
     return userData;
 });
 const updateMyProfile = (user, req) => __awaiter(void 0, void 0, void 0, function* () {
-    const userData = yield prisma.user.findUnique({
+    var _a, _b, _c;
+    const userData = yield prisma.user.findUniqueOrThrow({
         where: {
             id: user.userId,
             status: user.ACTIVE,
         },
     });
+    console.log("hello");
     if (!userData) {
         throw new AppError_1.default(http_status_1.default.BAD_REQUEST, "User does not exist!");
     }
@@ -105,11 +107,16 @@ const updateMyProfile = (user, req) => __awaiter(void 0, void 0, void 0, functio
             throw new AppError_1.default(http_status_1.default.BAD_REQUEST, "Profile image upload failed!");
         }
     }
+    console.log(req.body.email);
     const result = yield prisma.user.update({
         where: {
             email: user.email,
         },
-        data: req.body,
+        data: {
+            email: (_a = req === null || req === void 0 ? void 0 : req.body) === null || _a === void 0 ? void 0 : _a.email,
+            name: (_b = req === null || req === void 0 ? void 0 : req.body) === null || _b === void 0 ? void 0 : _b.name,
+            profilePhoto: (_c = req === null || req === void 0 ? void 0 : req.body) === null || _c === void 0 ? void 0 : _c.profilePhoto,
+        },
     });
     return result;
 });

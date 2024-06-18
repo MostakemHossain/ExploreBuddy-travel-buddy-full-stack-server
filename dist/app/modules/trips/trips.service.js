@@ -28,8 +28,11 @@ const client_1 = require("@prisma/client");
 const calculatePagination_1 = __importDefault(require("../../../helpers/calculatePagination"));
 const prisma = new client_1.PrismaClient();
 const createTrip = (payload, userId) => __awaiter(void 0, void 0, void 0, function* () {
+    const startDate = payload.startDate;
+    const endDate = payload.endDate;
+    const updatedPayload = Object.assign(Object.assign({}, payload), { startDate: startDate, endDate: endDate });
     const result = yield prisma.trip.create({
-        data: Object.assign({ userId: userId }, payload),
+        data: Object.assign({ userId: userId }, updatedPayload),
     });
     return result;
 });
@@ -40,7 +43,6 @@ const getAllTrip = (params, options) => __awaiter(void 0, void 0, void 0, functi
     if (filterData.budget) {
         filterData.budget = parseInt(filterData.budget);
     }
-    // search Term
     if (params.searchTerm) {
         const searchTermAsInt = parseInt(params.searchTerm);
         if (!isNaN(searchTermAsInt)) {
