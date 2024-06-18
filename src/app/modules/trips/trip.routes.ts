@@ -4,11 +4,15 @@ import auth from "../../middlewares/auth";
 import { tripController } from "./trip.controller";
 const router = express.Router();
 
-router.post("/trips", auth(UserRole.USER), tripController.createTrip);
+router.post(
+  "/trips",
+  auth(UserRole.ADMIN, UserRole.SUPER_ADMIN),
+  tripController.createTrip
+);
 router.get("/trips/all-trips", tripController.getAllTrip);
 router.get(
   "/trips/my-trips",
-  auth(UserRole.USER),
+  auth(UserRole.ADMIN, UserRole.SUPER_ADMIN),
   tripController.getSpecificUserTrip
 );
 router.delete(
