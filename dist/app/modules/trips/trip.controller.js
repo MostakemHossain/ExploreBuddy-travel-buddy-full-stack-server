@@ -36,7 +36,6 @@ const getAllTrip = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, voi
         success: true,
         statusCode: http_status_1.default.OK,
         message: "Trip Retrieved Successfully",
-        meta: result.meta,
         data: result.data,
     });
 }));

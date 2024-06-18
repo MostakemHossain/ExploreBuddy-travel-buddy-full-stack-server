@@ -20,7 +20,7 @@ const catchAsync_1 = __importDefault(require("../../../Shared/catchAsync"));
 const trip_constant_1 = __importDefault(require("../trips/trip.constant"));
 const travel_service_1 = require("./travel.service");
 const createTravel = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield travel_service_1.travelService.createTravel(req.params.tripId, req.body.userId);
+    const result = yield travel_service_1.travelService.createTravel(req.params.tripId, req.user.userId);
     (0, SendResponse_1.default)(res, {
         statusCode: http_status_1.default.CREATED,
         message: "Travel created successfully",

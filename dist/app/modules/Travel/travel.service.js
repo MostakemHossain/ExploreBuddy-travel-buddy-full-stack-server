@@ -59,13 +59,12 @@ const getPotentialTravelBuddies = (tripId) => __awaiter(void 0, void 0, void 0, 
     return trip;
 });
 const updateSpecificTravelBuddy = (buddyId, payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const { newStatus } = payload;
     const result = yield prisma.travelBuddyRequest.update({
         where: {
             id: buddyId,
         },
         data: {
-            status: newStatus,
+            status: payload.newStatus,
         },
     });
     return result;
