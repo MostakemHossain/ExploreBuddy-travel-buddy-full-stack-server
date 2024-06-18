@@ -7,6 +7,11 @@ import router from "./app/routes";
 
 const app: Application = express();
 
+app.use(
+  cors({
+    origin: "https://explore-buddy-travel-buddy-full-stack-client.vercel.app",
+  })
+);
 const allowedOrigins = [
   "https://explore-buddy-travel-buddy-full-stack-client.vercel.app",
 ];
