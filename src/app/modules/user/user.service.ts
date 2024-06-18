@@ -76,12 +76,13 @@ const getMyProfile = async (user: any) => {
 };
 
 const updateMyProfile = async (user: any, req: CustomRequest) => {
-  const userData = await prisma.user.findUnique({
+  const userData = await prisma.user.findUniqueOrThrow({
     where: {
       id: user.userId,
       status: user.ACTIVE,
     },
   });
+  console.log("hello");
 
   if (!userData) {
     throw new AppError(httpStatus.BAD_REQUEST, "User does not exist!");
@@ -100,12 +101,16 @@ const updateMyProfile = async (user: any, req: CustomRequest) => {
       );
     }
   }
-
+  console.log(req.body.email);
   const result = await prisma.user.update({
     where: {
       email: user.email,
     },
-    data: req.body,
+    data: {
+      email: req?.body?.email,
+      name: req?.body?.name,
+      profilePhoto: req?.body?.profilePhoto,
+    },
   });
   return result;
 };

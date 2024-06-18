@@ -17,13 +17,13 @@ router.get(
 );
 router.delete(
   "/trips/my-trips/:id",
-  auth(UserRole.USER),
+  auth(UserRole.ADMIN, UserRole.SUPER_ADMIN),
   tripController.deleteMyTrip
 );
 router.get("/trips/my-trips/:id", tripController.getMyTrip);
 router.patch(
   "/trips/my-trips/:id",
-  auth(UserRole.USER),
+  auth(UserRole.ADMIN, UserRole.SUPER_ADMIN),
   tripController.updateMyTrip
 );
 

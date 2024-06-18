@@ -4,10 +4,19 @@ import { TPagination } from "../../interface/pagination";
 
 const prisma = new PrismaClient();
 const createTrip = async (payload: any, userId: string) => {
+  const startDate = payload.startDate;
+  const endDate = payload.endDate;
+
+  const updatedPayload = {
+    ...payload,
+    startDate: startDate,
+    endDate: endDate,
+  };
+
   const result = await prisma.trip.create({
     data: {
       userId: userId,
-      ...payload,
+      ...updatedPayload,
     },
   });
   return result;
@@ -20,8 +29,6 @@ const getAllTrip = async (params: any, options: TPagination) => {
   if (filterData.budget) {
     filterData.budget = parseInt(filterData.budget);
   }
-
-  // search Term
   if (params.searchTerm) {
     const searchTermAsInt = parseInt(params.searchTerm);
     if (!isNaN(searchTermAsInt)) {
