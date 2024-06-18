@@ -1,5 +1,6 @@
 import cookieParser from "cookie-parser";
-import express, { Application, NextFunction, Request, Response } from "express";
+import cors from "cors";
+import express, { Application, Request, Response } from "express";
 import globalErrorHandler from "./app/middlewares/globalErrorHandler";
 import notFound from "./app/middlewares/notFound";
 import router from "./app/routes";
@@ -10,19 +11,23 @@ const allowedOrigins = [
   "https://explore-buddy-travel-buddy-full-stack-client.vercel.app", // Add other allowed origins here
 ];
 
-app.use(function (req: Request, res: Response, next: NextFunction) {
-  const origin = req.headers.origin;
-  if (origin && allowedOrigins.includes(origin)) {
-    res.header("Access-Control-Allow-Origin", origin);
-  }
-  res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept, x-client-key, x-client-token, x-client-secret, Authorization"
-  );
-  res.header("Access-Control-Allow-Credentials", "true");
-  next();
-});
+app.use(
+  cors({
+    origin: allowedOrigins, // Use allowedOrigins array
+    credentials: true,
+    methods: ["GET", "HEAD", "OPTIONS", "POST", "PUT", "PATCH", "DELETE"], // Include PATCH method
+    allowedHeaders: [
+      "Origin",
+      "X-Requested-With",
+      "Content-Type",
+      "Accept",
+      "x-client-key",
+      "x-client-token",
+      "x-client-secret",
+      "Authorization",
+    ],
+  })
+);
 
 app.use(cookieParser());
 
