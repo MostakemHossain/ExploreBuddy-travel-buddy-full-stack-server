@@ -25,7 +25,6 @@ const getAllTrip = catchAsync(async (req: Request, res: Response) => {
     success: true,
     statusCode: httpStatus.OK,
     message: "Trip Retrieved Successfully",
-    meta: result.meta,
     data: result.data,
   });
 });

@@ -36,14 +36,13 @@ const getPotentialTravelBuddies = async (tripId: string) => {
   });
   return trip;
 };
-const updateSpecificTravelBuddy = async (buddyId: string, payload: any) => {
-  const { newStatus } = payload;
+const updateSpecificTravelBuddy = async (buddyId: string) => {
   const result = await prisma.travelBuddyRequest.update({
     where: {
       id: buddyId,
     },
     data: {
-      status: newStatus,
+      status: "PENDING",
     },
   });
   return result;

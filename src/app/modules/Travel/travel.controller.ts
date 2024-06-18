@@ -6,18 +6,20 @@ import catchAsync from "../../../Shared/catchAsync";
 import tripFilterableFields from "../trips/trip.constant";
 import { travelService } from "./travel.service";
 
-const createTravel = catchAsync(async (req: Request, res: Response) => {
-  const result = await travelService.createTravel(
-    req.params.tripId,
-    req.body.userId
-  );
-  sendResponse(res, {
-    statusCode: httpStatus.CREATED,
-    message: "Travel created successfully",
-    success: true,
-    data: result,
-  });
-});
+const createTravel = catchAsync(
+  async (req: Request & { user?: any }, res: Response) => {
+    const result = await travelService.createTravel(
+      req.params.tripId,
+      req.user.userId
+    );
+    sendResponse(res, {
+      statusCode: httpStatus.CREATED,
+      message: "Travel created successfully",
+      success: true,
+      data: result,
+    });
+  }
+);
 const getPotentialTravelBuddies = catchAsync(
   async (req: Request, res: Response) => {
     const result = await travelService.getPotentialTravelBuddies(
@@ -34,8 +36,7 @@ const getPotentialTravelBuddies = catchAsync(
 const updateSpecificTravelBuddy = catchAsync(
   async (req: Request, res: Response) => {
     const result = await travelService.updateSpecificTravelBuddy(
-      req.params.buddyId,
-      req.body
+      req.params.buddyId
     );
     sendResponse(res, {
       statusCode: httpStatus.OK,

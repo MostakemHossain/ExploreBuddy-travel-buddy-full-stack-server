@@ -78,8 +78,6 @@ const getAllTrip = async (params: any, options: TPagination) => {
   });
   const result = await prisma.trip.findMany({
     where: whereConditions,
-    skip: skip,
-    take: limit,
 
     orderBy:
       options.sortBy && options.sortOrder
@@ -89,11 +87,6 @@ const getAllTrip = async (params: any, options: TPagination) => {
           },
   });
   return {
-    meta: {
-      page,
-      limit,
-      total,
-    },
     data: result,
   };
 };

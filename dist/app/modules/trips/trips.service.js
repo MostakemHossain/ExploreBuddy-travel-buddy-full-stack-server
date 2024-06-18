@@ -90,19 +90,19 @@ const getAllTrip = (params, options) => __awaiter(void 0, void 0, void 0, functi
             })),
         });
     }
-    andConditions.push({
-        TravelBuddyRequest: {
-            some: {
-                status: "APPROVED",
-            },
-        },
-    });
     const whereConditions = { AND: andConditions };
     const total = yield prisma.trip.count({
         where: whereConditions,
     });
     const result = yield prisma.trip.findMany({
         where: whereConditions,
+        skip: skip,
+        take: limit,
+        orderBy: options.sortBy && options.sortOrder
+            ? { [options.sortBy]: options.sortOrder }
+            : {
+                createdAt: "desc",
+            },
     });
     return {
         meta: {
@@ -169,7 +169,11 @@ const getSpecificUserTrip = (id, params, options) => __awaiter(void 0, void 0, v
             where: whereConditions,
             skip: skip,
             take: limit,
-            orderBy: sortBy ? { [sortBy]: sortOrder } : undefined,
+            orderBy: options.sortBy && options.sortOrder
+                ? { [options.sortBy]: options.sortOrder }
+                : {
+                    createdAt: "desc",
+                },
         });
         return {
             meta: {
