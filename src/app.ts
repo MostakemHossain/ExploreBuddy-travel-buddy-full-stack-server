@@ -7,33 +7,7 @@ import router from "./app/routes";
 
 const app: Application = express();
 
-const allowedOrigins = [
-  "https://explore-buddy-travel-buddy-full-stack-client.vercel.app",
-];
-
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true,
-    methods: ["GET", "HEAD", "OPTIONS", "POST", "PUT", "PATCH", "DELETE"],
-    allowedHeaders: [
-      "Origin",
-      "X-Requested-With",
-      "Content-Type",
-      "Accept",
-      "x-client-key",
-      "x-client-token",
-      "x-client-secret",
-      "Authorization",
-    ],
-  })
-);
+app.use(cors());
 
 // Parser
 app.use(cookieParser());
