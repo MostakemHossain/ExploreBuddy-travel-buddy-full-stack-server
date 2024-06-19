@@ -93,7 +93,6 @@ const updateMyProfile = (user, req) => __awaiter(void 0, void 0, void 0, functio
             status: user.ACTIVE,
         },
     });
-    console.log("hello");
     if (!userData) {
         throw new AppError_1.default(http_status_1.default.BAD_REQUEST, "User does not exist!");
     }
@@ -107,7 +106,6 @@ const updateMyProfile = (user, req) => __awaiter(void 0, void 0, void 0, functio
             throw new AppError_1.default(http_status_1.default.BAD_REQUEST, "Profile image upload failed!");
         }
     }
-    console.log(req.body.email);
     const result = yield prisma.user.update({
         where: {
             email: user.email,

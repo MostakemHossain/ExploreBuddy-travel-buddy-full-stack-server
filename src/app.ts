@@ -7,15 +7,25 @@ import router from "./app/routes";
 
 const app: Application = express();
 
-app.use(
-  cors({
-    origin: "http://localhost:3000",
-    credentials: true,
-  })
-);
+app.use(cors());
+const allowedOrigins = [
+  "https://explore-buddy-travel-buddy-full-stack-client.vercel.app", // Add other allowed origins here
+];
+app.use(function (req, res, next) {
+  const origin = req.headers.origin;
+  if (origin && allowedOrigins.includes(origin)) {
+    res.header("Access-Control-Allow-Origin", origin);
+  }
+  res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, x-client-key, x-client-token, x-client-secret, Authorization"
+  );
+  res.header("Access-Control-Allow-Credentials", "true");
+  next();
+});
 
-// parser
-app.use(express.json());
+// Parser
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 

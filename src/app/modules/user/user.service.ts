@@ -82,7 +82,6 @@ const updateMyProfile = async (user: any, req: CustomRequest) => {
       status: user.ACTIVE,
     },
   });
-  console.log("hello");
 
   if (!userData) {
     throw new AppError(httpStatus.BAD_REQUEST, "User does not exist!");
@@ -101,7 +100,6 @@ const updateMyProfile = async (user: any, req: CustomRequest) => {
       );
     }
   }
-  console.log(req.body.email);
   const result = await prisma.user.update({
     where: {
       email: user.email,

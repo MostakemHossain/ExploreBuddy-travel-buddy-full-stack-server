@@ -57,7 +57,6 @@ const getAllTravelRequest = (0, catchAsync_1.default)((req, res) => __awaiter(vo
 }));
 const getAllApprovalTravelRequest = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const filter = (0, Pick_1.default)(req.query, trip_constant_1.default);
-    console.log(req.query);
     const options = (0, Pick_1.default)(req.query, ["limit", "page", "sortBy", "sortOrder"]);
     const result = yield travel_service_1.travelService.getAllApprovalTravelRequest(filter, options);
     (0, SendResponse_1.default)(res, {

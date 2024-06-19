@@ -59,7 +59,6 @@ const getAllTravelRequest = catchAsync(async (req: Request, res: Response) => {
 const getAllApprovalTravelRequest = catchAsync(
   async (req: Request, res: Response) => {
     const filter = Pick(req.query, tripFilterableFields);
-    console.log(req.query);
     const options = Pick(req.query, ["limit", "page", "sortBy", "sortOrder"]);
     const result = await travelService.getAllApprovalTravelRequest(
       filter,
