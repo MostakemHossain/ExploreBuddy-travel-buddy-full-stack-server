@@ -6,24 +6,23 @@ import notFound from "./app/middlewares/notFound";
 import router from "./app/routes";
 
 const app: Application = express();
-const allowedOrigins = [
-  "https://explore-buddy-travel-buddy-full-stack-client.vercel.app", // Add other allowed origins here
-];
-
-const corsOptions = {
-  origin: function (origin: any, callback: any) {
-    if (allowedOrigins.includes(origin) || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  credentials: true,
-};
-
-// Use the cors middleware
-app.use(cors(corsOptions));
-
+app.use(
+  cors({
+    origin: "https://explore-buddy-travel-buddy-full-stack-client.vercel.app",
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "HEAD", "OPTIONS"],
+    allowedHeaders: [
+      "Content-Type",
+      "Origin",
+      "X-Requested-With",
+      "Accept",
+      "x-client-key",
+      "x-client-token",
+      "x-client-secret",
+      "Authorization",
+    ],
+    credentials: true,
+  })
+);
 // Parser
 app.use(cookieParser());
 app.use(express.json());
