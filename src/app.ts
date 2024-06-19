@@ -6,6 +6,8 @@ import notFound from "./app/middlewares/notFound";
 import router from "./app/routes";
 
 const app: Application = express();
+
+// CORS Middleware Configuration
 app.use(
   cors({
     origin: "https://explore-buddy-travel-buddy-full-stack-client.vercel.app",
@@ -23,13 +25,22 @@ app.use(
     credentials: true,
   })
 );
-app.all("*", (req, res, next) => {
+
+// Ensure CORS headers are set on all responses
+app.use((req, res, next) => {
   res.header(
     "Access-Control-Allow-Origin",
     "https://explore-buddy-travel-buddy-full-stack-client.vercel.app"
   );
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+  );
   next();
 });
+
 // Parser
 app.use(cookieParser());
 app.use(express.json());
