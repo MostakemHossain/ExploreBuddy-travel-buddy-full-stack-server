@@ -8,14 +8,16 @@ import router from "./app/routes";
 const app: Application = express();
 
 // CORS configuration
-app.use(
-  cors({
-    origin: "https://explore-buddy-travel-buddy-full-stack-client.vercel.app", // allow this origin
-    methods: "GET, POST, PUT, DELETE, OPTIONS", // allowed methods
-    allowedHeaders: "Content-Type, Authorization", // allowed headers
-    credentials: true, // allow credentials such as cookies
-  })
-);
+const corsOptions = {
+  origin: "https://explore-buddy-travel-buddy-full-stack-client.vercel.app", // your client's origin
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true, // allow credentials such as cookies
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
+};
+
+app.use(cors(corsOptions));
 
 // Parser
 app.use(cookieParser());
@@ -36,5 +38,14 @@ app.use(globalErrorHandler);
 
 // Not found routes
 app.use(notFound);
+
+// Handle CORS preflight requests
+app.options("*", cors(corsOptions));
+
+// Start server
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
 
 export default app;
