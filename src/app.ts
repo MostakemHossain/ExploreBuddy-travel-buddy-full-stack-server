@@ -9,13 +9,14 @@ const app: Application = express();
 
 app.use(
   cors({
-    origin: ["https://explore-buddy-travel-buddy-full-stack-client.vercel.app"],
+    origin: ["http://localhost:3000"],
     credentials: true,
   })
 );
 
 // Parser
 app.use(cookieParser());
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req: Request, res: Response) => {
