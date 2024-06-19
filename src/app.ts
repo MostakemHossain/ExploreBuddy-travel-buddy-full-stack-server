@@ -6,19 +6,11 @@ import notFound from "./app/middlewares/notFound";
 import router from "./app/routes";
 
 const app: Application = express();
-
-// CORS configuration
-const corsOptions = {
-  origin: "https://explore-buddy-travel-buddy-full-stack-client.vercel.app", // your client's origin
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true, // allow credentials such as cookies
-  preflightContinue: false,
-  optionsSuccessStatus: 204,
-};
-
-app.use(cors(corsOptions));
-
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 // Parser
 app.use(cookieParser());
 app.use(express.json());
@@ -32,9 +24,6 @@ app.get("/", (req: Request, res: Response) => {
     message: "Explore Buddy API.............",
   });
 });
-
-// Handle preflight requests
-app.options("*", cors(corsOptions));
 
 // Global error handler
 app.use(globalErrorHandler);

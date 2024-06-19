@@ -10,16 +10,9 @@ const globalErrorHandler_1 = __importDefault(require("./app/middlewares/globalEr
 const notFound_1 = __importDefault(require("./app/middlewares/notFound"));
 const routes_1 = __importDefault(require("./app/routes"));
 const app = (0, express_1.default)();
-// CORS configuration
-const corsOptions = {
-    origin: "https://explore-buddy-travel-buddy-full-stack-client.vercel.app", // your client's origin
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true, // allow credentials such as cookies
-    preflightContinue: false,
-    optionsSuccessStatus: 204,
-};
-app.use((0, cors_1.default)(corsOptions));
+app.use((0, cors_1.default)({
+    origin: "*",
+}));
 // Parser
 app.use((0, cookie_parser_1.default)());
 app.use(express_1.default.json());
@@ -31,8 +24,6 @@ app.get("/", (req, res) => {
         message: "Explore Buddy API.............",
     });
 });
-// Handle preflight requests
-app.options("*", (0, cors_1.default)(corsOptions));
 // Global error handler
 app.use(globalErrorHandler_1.default);
 // Not found routes
