@@ -33,14 +33,14 @@ app.get("/", (req: Request, res: Response) => {
   });
 });
 
+// Handle preflight requests
+app.options("*", cors(corsOptions));
+
 // Global error handler
 app.use(globalErrorHandler);
 
 // Not found routes
 app.use(notFound);
-
-// Handle CORS preflight requests
-app.options("*", cors(corsOptions));
 
 // Start server
 const port = process.env.PORT || 3000;

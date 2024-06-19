@@ -11,12 +11,15 @@ const notFound_1 = __importDefault(require("./app/middlewares/notFound"));
 const routes_1 = __importDefault(require("./app/routes"));
 const app = (0, express_1.default)();
 // CORS configuration
-app.use((0, cors_1.default)({
-    origin: "https://explore-buddy-travel-buddy-full-stack-client.vercel.app", // allow this origin
-    methods: "GET, POST, PUT, DELETE, OPTIONS", // allowed methods
-    allowedHeaders: "Content-Type, Authorization", // allowed headers
+const corsOptions = {
+    origin: "https://explore-buddy-travel-buddy-full-stack-client.vercel.app", // your client's origin
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true, // allow credentials such as cookies
-}));
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+};
+app.use((0, cors_1.default)(corsOptions));
 // Parser
 app.use((0, cookie_parser_1.default)());
 app.use(express_1.default.json());
@@ -28,8 +31,15 @@ app.get("/", (req, res) => {
         message: "Explore Buddy API.............",
     });
 });
+// Handle preflight requests
+app.options("*", (0, cors_1.default)(corsOptions));
 // Global error handler
 app.use(globalErrorHandler_1.default);
 // Not found routes
 app.use(notFound_1.default);
+// Start server
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+});
 exports.default = app;
