@@ -25,6 +25,10 @@ app.use((0, cors_1.default)({
     ],
     credentials: true,
 }));
+app.all("*", (req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "https://explore-buddy-travel-buddy-full-stack-client.vercel.app");
+    next();
+});
 // Parser
 app.use((0, cookie_parser_1.default)());
 app.use(express_1.default.json());
