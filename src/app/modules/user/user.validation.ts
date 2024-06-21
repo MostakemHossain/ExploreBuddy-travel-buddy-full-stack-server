@@ -1,5 +1,4 @@
 import { z } from "zod";
-
 const createUserValidationSchema = z.object({
   name: z.string({
     required_error: "Name field is required.",
@@ -18,9 +17,7 @@ const createUserValidationSchema = z.object({
 const updateUserValidationSchema = z.object({
   name: z.string({}).optional(),
   email: z.string().email({}).optional(),
-  
 });
-
 export const userValidation = {
   createUserValidationSchema,
   updateUserValidationSchema,
