@@ -9,7 +9,7 @@ const app: Application = express();
 
 app.use(
   cors({
-    origin: ["https://explore-buddy-travel-buddy-full-stack-client.vercel.app"],
+    origin: ["https://explore-buddy.vercel.app"],
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,
   })

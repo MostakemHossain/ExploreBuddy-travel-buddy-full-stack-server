@@ -80,7 +80,7 @@ const getAllUser = () => __awaiter(void 0, void 0, void 0, function* () {
 const getMyProfile = (user) => __awaiter(void 0, void 0, void 0, function* () {
     const userData = yield prisma.user.findUniqueOrThrow({
         where: {
-            id: user.userId,
+            id: user.id,
         },
     });
     return userData;
