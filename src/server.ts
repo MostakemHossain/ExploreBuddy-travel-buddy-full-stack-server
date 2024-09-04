@@ -4,6 +4,7 @@ import config from "./config";
 
 async function main() {
   const server: Server = app.listen(config.port, () => {
+    console.log("database connect successfully");
     console.log(`Server is running on port ${config.port}`);
   });
 }

@@ -69,7 +69,7 @@ const getAllUser = async () => {
 const getMyProfile = async (user: any) => {
   const userData = await prisma.user.findUniqueOrThrow({
     where: {
-      id: user.userId,
+      id: user.id,
     },
   });
   return userData;
